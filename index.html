@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri-Ved</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="deb25072-8b39-4010-b15b-b6ac3431f769.webp" alt="logo">
+        <h2>Agri-Ved</h2>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="chatbot.html">Chatbot</a></li>
+        <li><a href="#">Weather Report</a></li>
+         <li><a href="#">Market Price</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact us</a></li>
+      </ul>
+      <div class="login">
+        <a href="login.html" class="btn">Login</a>
+        <a href="login.html" class="btn">Sign up</a>
+      </div>
+    </nav>
+  </header>
+
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Great <span class="highlight">Farming</span><br>
+        starts with <span class="highlight">Agri-Ved</span></h1>
+      <p>We help farmers and agri-businesses with soil recommendations, smart farming tools, and AI-powered chatbot
+        support.</p>
+      <a href="chatbot.html" class="btn-primary">Let’s Get Started!</a>
+    </div>
+
+    <div class="hero-img">
+      <img src="logo.png" alt="Agri-Ved Farming">
+    </div>
+  </section>
+
+>
+  <section class="services" id="services">
+    <h2 class="section-title">Services we offer</h2>
+    <div class="services-wrapper">
+      <div class="services-container" id="servicesCarousel">
+        <div class="service-card">
+          <div class="icon">🌽</div>
+          <h3>Crop Recommendations</h3>
+          <p>AI-driven system to help farmers choose the most suitable crop for
+            their fields by analyzing multiple environmental and soil parameters.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">🤖</div>
+          <h3>ChatBot</h3>
+          <p>Smart, AI-powered virtual assistant providing instant responses,
+            real-time support, and reliable guidance 24/7.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">🌤️</div>
+          <h3>Weather Prediction</h3>
+          <p>Helps farmers make smarter decisions by guiding them on sowing,
+            irrigation, and harvesting to reduce crop losses.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="icon">🌱</div>
+          <h3>Fertilizer Amount</h3>
+          <p>Ensures the correct quantity of fertilizer is used, improving crop
+            growth while protecting soil health.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="contact" id="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-wrapper">
+      <p>📧 Email: <a href="mailto:agrived@gmail.com">agrived@gmail.com</a></p>
+      <p>📞 Phone: <a href="tel:+911234567890">+91 12345 67890</a></p>
+      <p>🏢 Address: Greater Noida Institute of Technology, UP, India</p>
+    </div>
+  </section>
+
+  <script>
+    let scrollAmount = 0;
+    const container = document.getElementById("servicesCarousel");
+    const cards = container.querySelectorAll(".service-card");
+
+    let currentIndex = 0;
+
+    function moveSlide(direction) {
+      const cardWidth = container.querySelector(".service-card").offsetWidth + 25;
+      currentIndex += direction;
+
+      if (currentIndex < 0) currentIndex = 0;
+      if (currentIndex >= cards.length) currentIndex = cards.length - 1;
+
+      scrollAmount = currentIndex * cardWidth;
+      container.scrollTo({
+        left: scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  </script>
+
+</body>
+
+</html>
 
