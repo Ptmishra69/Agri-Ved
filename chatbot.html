@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri-Ved Chat</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #ffffff;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+
+    img{
+        height: 80px;
+        width: 80px;
+    }
+    .navbar {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    /* Hero text */
+    .hero-text {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .hero-text h1 {
+      font-size: 28px;
+      font-weight: 500;
+      color: #000000;
+    }
+
+ 
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #f4f3f3;
+      border-radius: 30px;
+      border: solid black;
+      padding: 10px 15px;
+      width: 500px;
+      max-width: 90%;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      color: #000000;
+      padding: 8px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: #000000;
+      font-size: 18px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .icon-btn:hover {
+      color: #302f2f;
+    }
+   
+    #fileUpload {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div class="navbar"><img src="logo.png" alt="">Agri-Ved</div>
+  
+  <div class="hero-text">
+    <h1>How can i help you?</h1>
+  </div>
+
+
+  <div class="search-box">
+    <input type="text" placeholder="Ask anything...">
+    
+    <label for="fileUpload" class="icon-btn" title="Upload Image">📷</label>
+    <input type="file" id="fileUpload" accept="image/*">
+<label for="fileUpload" class="icon-btn" title="Upload Image">🎙️</label>
+    <input type="file" id="fileUpload" accept="audio/*">
+    
+    <button class="icon-btn" title="Send">➤</button>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri-Ved | Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      
+    }
+
+    .auth-container {
+      background: rgb(255, 255, 255);
+      width: 360px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .auth-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #4caf50;
+    }
+
+    .auth-container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-container label {
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .auth-container input {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+
+    .auth-container button {
+      padding: 12px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    .auth-container button:hover {
+      background-color: #2e7d32;
+    }
+
+    .toggle-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .toggle-link a {
+      color: #4caf50;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .toggle-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Password toggle */
+    .password-field {
+      position: relative;
+      display: flex;
+    }
+
+    .password-field input {
+      flex: 1;
+    }
+
+    .password-field button {
+      position: absolute;
+      right: 5px;
+      top: 30%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      color: #4caf50;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h2 id="form-title">Sign In</h2>
+    <!-- Sign In Form -->
+    <form id="signin-form">
+      <label for="signin-email"></label>
+      <input type="email" id="signin-email" placeholder="Enter your email" required>
+
+      <label for="signin-password">Password</label>
+      <div class="password-field">
+        <input type="password" id="signin-password" placeholder="Enter your password" required>
+        <button type="button" id="toggle-signin-pw">Show</button>
+      </div>
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <!-- Sign Up Form (hidden initially) -->
+    <form id="signup-form" style="display:none;">
+      <label for="signup-name">Full Name</label>
+      <input type="text" id="signup-name" placeholder="Enter your full name" required>
+
+      <label for="signup-email">Email</label>
+      <input type="email" id="signup-email" placeholder="Enter your email" required>
+
+      <label for="signup-password">Password</label>
+      <div class="password-field">
+        <input type="password" id="signup-password" placeholder="Create a password" required>
+        <button type="button" id="toggle-signup-pw">Show</button>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <div class="toggle-link">
+      <span id="toggle-text">Don't have an account? </span>
+      <a id="toggle-link">Sign Up</a>
+    </div>
+  </div>
+
+  <script>
+    const toggleLink = document.getElementById('toggle-link');
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    const formTitle = document.getElementById('form-title');
+    const toggleText = document.getElementById('toggle-text');
+
+    toggleLink.addEventListener('click', () => {
+      if (signinForm.style.display === 'none') {
+        signinForm.style.display = 'flex';
+        signupForm.style.display = 'none';
+        formTitle.textContent = 'Sign In';
+        toggleText.textContent = "Don't have an account? ";
+        toggleLink.textContent = 'Sign Up';
+      } else {
+        signinForm.style.display = 'none';
+        signupForm.style.display = 'flex';
+        formTitle.textContent = 'Sign Up';
+        toggleText.textContent = 'Already have an account? ';
+        toggleLink.textContent = 'Sign In';
+      }
+    });
+
+    // Password toggle function
+    function passwordToggle(toggleBtnId, inputId) {
+      const btn = document.getElementById(toggleBtnId);
+      const input = document.getElementById(inputId);
+      btn.addEventListener('click', () => {
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.textContent = 'Hide';
+        } else {
+          input.type = 'password';
+          btn.textContent = 'Show';
+        }
+      });
+    }
+
+    passwordToggle('toggle-signin-pw', 'signin-password');
+    passwordToggle('toggle-signup-pw', 'signup-password');
+
+    // Optional: form submit simulation
+    signinForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Signed In as ' + document.getElementById('signin-email').value);
+    });
+
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Account Created for ' + document.getElementById('signup-name').value);
+    });
+  </script>
+</body>
+
+</html>
