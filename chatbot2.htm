@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agri-Ved | ChatBot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeInUp 0.4s ease forwards; }
+    .chat-input textarea {
+      border: 1.5px solid #d1d5db;
+      background: #fdfdfd;
+      transition: all 0.3s ease;
+    }
+    .chat-input textarea:focus {
+      border-color: #4caf50;
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body class="text-gray-900 font-sans">
+
+  <!-- Navbar -->
+  <header class="fixed top-0 left-0 w-full z-50 shadow-md bg-gradient-to-r from-green-100 to-yellow-100">
+    <nav class="flex items-center justify-between px-8 py-4">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <img src="ChatGPT_Image_Sep_22__2025__05_17_37_PM-removebg-preview.png" alt="logo" class="w-12 h-12 rounded-full">
+      </div>
+
+      <!-- Links -->
+      <ul class="hidden md:flex gap-10 text-lg font-medium ml-12">
+        <li><a id="nav-home" href="index.html" class="hover:text-yellow-600">Home</a></li>
+        <li><a id="nav-chatbot" href="chatbot2.htm" class="hover:text-yellow-600">Chatbot</a></li>
+        <li><a id="nav-weather" href="#" class="hover:text-yellow-600">Weather Report</a></li>
+        <li><a id="nav-market" href="#" class="hover:text-yellow-600">Market Price</a></li>
+        <li><a id="nav-services" href="#services" class="hover:text-yellow-600">Services</a></li>
+        <li><a id="nav-contact" href="#contact" class="hover:text-yellow-600">Contact Us</a></li>
+      </ul>
+
+      <!-- Language Switcher -->
+      <div class="relative">
+        <select id="langSwitcher"
+          class="px-2 py-1 rounded-md bg-green-100 border border-green-300 text-green-800 text-sm font-medium">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="pa">ਪੰਜਾਬੀ</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Input Mode Selection -->
+  <section id="mode-selection" class="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-green-50 to-yellow-50">
+    <h1 id="chooseInput" class="text-3xl font-bold text-green-700 mb-6">Choose Input Method</h1>
+    <div class="flex gap-6">
+      <button onclick="selectMode('text')"
+        class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">Text Mode</button>
+      <button onclick="selectMode('voice')"
+        class="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition">Voice Mode</button>
+    </div>
+  </section>
+
+  <!-- Chatbot Section -->
+  <section id="chat-section" class="hidden flex items-center justify-center min-h-screen bg-cover bg-center pt-6"
+    style="background-image: url('WhatsApp Image 2025-09-21 at 19.56.20_f244dfce.jpg');">
+
+    <div class="chat-container mt-24 w-full max-w-md h-[80vh] bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl flex flex-col">
+      <!-- Header -->
+      <div id="chatHeader" class="text-xl font-semibold text-green-700 p-4 border-b border-gray-200 rounded-t-2xl bg-green-50">
+        Agri-Ved ChatBot 🤖
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages flex-1 overflow-y-auto p-4 space-y-3" id="chat-messages">
+        <div id="botWelcome" class="message bot bg-gray-100 p-3 rounded-lg shadow-sm w-fit max-w-[75%] fade-in">
+          Hello! 👋 I am Agri-Ved Bot. How can I help you today?
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="chat-input flex items-center gap-3 p-4 border-t border-gray-200 bg-gradient-to-r from-white to-green-50 rounded-b-2xl">
+        <textarea id="user-input" class="flex-1 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-green-400"
+          rows="3" placeholder="Type your message..."></textarea>
+
+        <button id="send-btn" onclick="sendMessage()"
+          class="px-5 py-3 bg-green-500 text-white font-medium rounded-lg shadow hover:bg-green-600 transition">➤</button>
+
+        <button id="voice-btn" onclick="startVoiceInput()"
+          class="px-4 py-3 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition hidden" title="Voice Input">🎤</button>
+
+        <button id="stop-btn" onclick="stopVoiceInput()"
+  class="px-4 py-3 bg-red-100 text-red-600 rounded-lg shadow hover:bg-red-200 transition hidden"
+  title="Stop Listening">⏹️</button>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+  // Dictionary for translations (UI only)
+  const translations = {
+    en: {
+      chooseInput: "Choose Input Method",
+      home: "Home",
+      chatbot: "Chatbot",
+      weather: "Weather Report",
+      market: "Market Price",
+      services: "Services",
+      contact: "Contact Us",
+      chatHeader: "Agri-Ved ChatBot 🤖",
+      botWelcome: "Hello! 👋 I am Agri-Ved Bot. How can I help you today?"
+    },
+    hi: {
+      chooseInput: "इनपुट विधि चुनें",
+      home: "होम",
+      chatbot: "चैटबॉट",
+      weather: "मौसम रिपोर्ट",
+      market: "बाज़ार भाव",
+      services: "सेवाएँ",
+      contact: "संपर्क करें",
+      chatHeader: "एग्री-वेड़ चैटबॉट 🤖",
+      botWelcome: "नमस्ते! 👋 मैं एग्री-वेड़ बॉट हूँ। मैं आपकी कैसे मदद कर सकता हूँ?"
+    },
+    pa: {
+      chooseInput: "ਇਨਪੁੱਟ ਢੰਗ ਚੁਣੋ",
+      home: "ਘਰ",
+      chatbot: "ਚੈਟਬਾਟ",
+      weather: "ਮੌਸਮ ਰਿਪੋਰਟ",
+      market: "ਬਾਜ਼ਾਰ ਭਾਅ",
+      services: "ਸੇਵਾਵਾਂ",
+      contact: "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+      chatHeader: "ਐਗਰੀ-ਵੇਦ ਚੈਟਬਾਟ 🤖",
+      botWelcome: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ! 👋 ਮੈਂ ਐਗਰੀ-ਵੇਦ ਬੋਟ ਹਾਂ। ਮੈਂ ਤੁਹਾਡੀ ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦਾ ਹਾਂ?"
+    }
+  };
+
+  // Update UI language
+  function updateUILanguage(lang) {
+    const t = translations[lang];
+    document.getElementById("chooseInput").textContent = t.chooseInput;
+    document.getElementById("nav-home").textContent = t.home;
+    document.getElementById("nav-chatbot").textContent = t.chatbot;
+    document.getElementById("nav-weather").textContent = t.weather;
+    document.getElementById("nav-market").textContent = t.market;
+    document.getElementById("nav-services").textContent = t.services;
+    document.getElementById("nav-contact").textContent = t.contact;
+    document.getElementById("chatHeader").textContent = t.chatHeader;
+    document.getElementById("botWelcome").textContent = t.botWelcome;
+  }
+
+  // Language switcher
+  document.getElementById("langSwitcher").addEventListener("change", (e) => {
+    updateUILanguage(e.target.value);
+  });
+
+  // Select input mode
+  function selectMode(mode) {
+    document.getElementById("mode-selection").classList.add("hidden");
+    document.getElementById("chat-section").classList.remove("hidden");
+
+    if (mode === "voice") {
+      document.getElementById("user-input").classList.add("hidden");
+      document.getElementById("send-btn").classList.add("hidden");
+      document.getElementById("voice-btn").classList.remove("hidden");
+    } else {
+      document.getElementById("user-input").classList.remove("hidden");
+      document.getElementById("send-btn").classList.remove("hidden");
+      document.getElementById("voice-btn").classList.add("hidden");
+    }
+  }
+
+  // Send message to Rasa backend
+  async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    addMessage(msg, "user");
+    input.value = "";
+
+    try {
+      const response = await fetch("http://localhost:5005/webhooks/rest/webhook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender: "user", message: msg })
+      });
+
+      const data = await response.json();
+      data.forEach(botMsg => {
+        if (botMsg.text) {
+          addMessage(botMsg.text, "bot");
+        }
+      });
+    } catch (err) {
+      console.error("Error connecting to Rasa:", err);
+      addMessage("⚠️ Error: Could not connect to Rasa server.", "bot");
+    }
+  }
+
+  // Add message to chat
+  function addMessage(text, sender) {
+    const chatBox = document.getElementById("chat-messages");
+    const div = document.createElement("div");
+    div.className = `message ${sender} ${sender === "bot" ? "bg-gray-100" : "bg-green-100 ml-auto"} 
+                     p-3 rounded-lg shadow-sm max-w-[75%] fade-in`;
+    div.textContent = text;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  // Voice input placeholder
+  let recognition; // global
+
+function startVoiceInput() {
+  if (!("webkitSpeechRecognition" in window)) {
+    alert("❌ Voice recognition not supported in this browser.");
+    return;
+  }
+
+  recognition = new webkitSpeechRecognition();
+  recognition.continuous = false; // stop after one sentence
+  recognition.interimResults = false;
+
+  // Match recognition language with selected UI language
+  const lang = document.getElementById("langSwitcher").value;
+  recognition.lang = lang === "hi" ? "hi-IN" : lang === "pa" ? "pa-IN" : "en-US";
+
+  recognition.onstart = () => {
+    addMessage("🎤 Listening... please start speaking.", "bot");
+    document.getElementById("voice-btn").classList.add("hidden");
+    document.getElementById("stop-btn").classList.remove("hidden");
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    document.getElementById("user-input").value = transcript;
+    sendMessage(); // auto-send after speaking
+    stopVoiceInput(false); // stop silently (no message)
+  };
+
+  recognition.onerror = (event) => {
+    addMessage("⚠️ Voice input error: " + event.error, "bot");
+    stopVoiceInput();
+  };
+
+  recognition.onend = () => {
+    // only stop if recognition wasn’t already cleared
+    if (recognition) stopVoiceInput();
+  };
+
+  recognition.start();
+}
+
+function stopVoiceInput(showMessage = true) {
+  if (recognition) {
+    recognition.stop();
+    recognition = null;
+    document.getElementById("voice-btn").classList.remove("hidden");
+    document.getElementById("stop-btn").classList.add("hidden");
+    if (showMessage) addMessage("🛑 Stopped listening.", "bot");
+  }
+}
+
+
+</script>
+
+
+
+
+</body>
+
+</html>
