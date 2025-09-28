@@ -1,0 +1,35 @@
+version: "3.1"
+
+rules:
+
+- rule: Greet
+  steps:
+    - intent: greet
+    - action: utter_greet
+
+- rule: Goodbye
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+
+- rule: Bot Challenge
+  steps:
+    - intent: bot_challenge
+    - action: utter_iamabot
+
+# -----------------------
+# Crop prediction flow
+# -----------------------
+- rule: Ask SHC ID for crop prediction
+  steps:
+    - intent: crop_prediction
+    - action: utter_ask_shc_id
+
+- rule: Process crop recommendation when SHC ID provided
+  condition:
+    - slot_was_set:
+        - shc_id
+  steps:
+    - intent: provide_shc_id
+    - action: action_process_soil_data
+    - action: action_recommend_crop

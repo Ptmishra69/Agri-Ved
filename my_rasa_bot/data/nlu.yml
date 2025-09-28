@@ -1,0 +1,52 @@
+version: "3.1"
+
+nlu:
+
+# ----------------------
+# Regex patterns
+# ----------------------
+- regex: shc_id
+  examples: |
+    - SHC[0-9]{9,12}
+
+# ----------------------
+# Intents
+# ----------------------
+- intent: soil_health
+  examples: |
+    - I want to check my soil health
+    - Can you check soil condition?
+    - Soil test with SHC
+
+- intent: greet
+  examples: |
+    - hello
+    - hi
+    - hey
+    - good morning
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you later
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - who are you?
+    - what are you?
+
+- intent: crop_prediction
+  examples: |
+    - I want a crop recommendation
+    - suggest me crops
+    - which crop should I grow?
+
+- intent: provide_shc_id
+  examples: |
+    - my SHC ID is [SHC123456789](shc_id)
+    - [SHC987654321](shc_id)
+    - here is my soil health card ID [SHC555555555](shc_id)
+    - my SHC id is [SHC111222333](shc_id)
+    - [SHC444555666777](shc_id)

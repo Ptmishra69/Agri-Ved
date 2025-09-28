@@ -1,0 +1,31 @@
+version: "3.1"
+
+language: "xx"
+
+# NLU pipeline: how Rasa processes farmer inputs
+pipeline:
+- name: WhitespaceTokenizer          # splits text into words
+- name: RegexFeaturizer              # handles regex patterns
+- name: LexicalSyntacticFeaturizer   # captures word context
+- name: CountVectorsFeaturizer       # bag-of-words features
+- name: CountVectorsFeaturizer       # for subwords (better multilingual)
+  analyzer: char_wb
+  min_ngram: 1
+  max_ngram: 4
+- name: DIETClassifier               # main intent & entity classifier
+  epochs: 100
+- name: EntitySynonymMapper          # maps synonyms (e.g. "bye" → "goodbye")
+- name: ResponseSelector             # for FAQ / retrieval intents
+  epochs: 100
+- name: FallbackClassifier           # fallback if intent confidence too low
+  threshold: 0.3
+  ambiguity_threshold: 0.1
+
+# Core policies: how Rasa decides what action to take
+policies:
+- name: MemoizationPolicy            # remembers exact training stories
+- name: RulePolicy                   # follows rules.yml strictly
+- name: TEDPolicy                    # learns dialogue patterns
+  max_history: 5
+  epochs: 100
+assistant_id: 20250918-125449-tractable-swallow

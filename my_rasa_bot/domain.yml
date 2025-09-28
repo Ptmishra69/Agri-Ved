@@ -1,0 +1,43 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - deny
+  - soil_health
+  - crop_prediction
+  - provide_shc_id
+  - bot_challenge
+
+entities:
+  - shc_id
+
+slots:
+  shc_id:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: shc_id
+
+responses:
+  utter_greet:
+    - text: "Hey! 👋 I am AgriBot 🌱. How can I assist you today?"
+
+  utter_goodbye:
+    - text: "Goodbye 👋. Wishing you a great harvest!"
+
+  utter_iamabot:
+    - text: "I am an AI assistant powered by Rasa 🤖."
+
+  utter_ask_shc_id:
+    - text: "Please provide your Soil Health Card (SHC) ID."
+
+
+  utter_no_shc_help:
+    - text: "I couldn't find your SHC details. Please check your ID and try again."
+
+  
+
+actions:
+  - action_recommend_crop
+  - action_process_soil_data
