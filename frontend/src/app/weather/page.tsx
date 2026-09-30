@@ -99,7 +99,6 @@ function WeatherContent() {
       options: {
         responsive: true,
         interaction: { mode: "index", intersect: false },
-        stacked: false,
         plugins: {
           legend: { position: "top" },
           tooltip: { mode: "index", intersect: false },
