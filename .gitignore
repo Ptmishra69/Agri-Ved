@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+users_db.json
+/frontend/node_modules/
+/frontend/.next/
+soil-health-crawler/venv/
